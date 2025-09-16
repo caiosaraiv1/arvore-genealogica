@@ -11,7 +11,7 @@ import java.util.Scanner;
 class Main {
 	
 	public static void main(String[] args) {
-		ArvoreGenealogica a = new ArvoreGenealogica();
+		ArvoreGenealogica arvore = new ArvoreGenealogica();
 
  		File arquivo = new File("arvore-genealogica\\arquivo.txt");
 
@@ -19,7 +19,12 @@ class Main {
     	try (Scanner S = new Scanner(arquivo)) {
       		while (S.hasNextLine()) {
         	String dado = S.nextLine();
+			String[] filhoPai = dado.split("\\s+"); //esse split separa quando tem espaços de quantidade indefinidas (\\s+)
+			String filho = filhoPai[0];
+			String pai = filhoPai[1];
         	System.out.println(dado);
+			System.out.println(filho);
+			System.out.println(pai);
       		}
     	} catch (FileNotFoundException e) {
       		System.out.println("Um erro ocorreu ao ler o arquivo.");
