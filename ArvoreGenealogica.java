@@ -23,6 +23,22 @@ public class ArvoreGenealogica {
 	public void setRaiz(Pessoa raiz) {
 		this.ancestralComum = raiz;
 	}
-
 	
+	public Pessoa buscarPessoa(String nome) {
+		return buscarPessoaRec(this.ancestralComum, nome);
+	}
+	
+	private Pessoa buscarPessoaRec(Pessoa atual, String nome) {		
+		if (atual == null) return null;
+		if (atual.getNome().equals(nome)) return atual;
+		
+		Pessoa esquerda = buscarPessoaRec(atual.getFilhoEquerda(), nome);
+		if (esquerda != null) return esquerda;
+		
+		return buscarPessoaRec(atual.getFilhoDireita(), nome);
+	}
+
 }
+		
+	
+
