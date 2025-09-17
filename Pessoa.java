@@ -49,5 +49,9 @@ public class Pessoa {
 		this.filhoDireita = filhoDireita;
 	}
 	
-	
+	@Override
+	public String toString() {
+	    return this.nome;
+	}
+
 }

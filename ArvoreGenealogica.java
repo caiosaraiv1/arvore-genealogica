@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class ArvoreGenealogica {
 	
 	Pessoa ancestralComum;
+	Map<String, Pessoa> map = new HashMap<>();;
 	
 	public ArvoreGenealogica() {
 		this.ancestralComum = null;
@@ -32,21 +33,26 @@ public class ArvoreGenealogica {
 		return buscarPessoaRec(this.ancestralComum, nome);
 	}
 	
-	public Pessoa criarNo(String nomePai, String nomeFilho){ // Tem que chamar no Main
-
-		Map<String, Pessoa> map = new HashMap<>();
+	public void criarNo(String nomePai, String nomeFilho){ // Tem que chamar no Main
 
 		Pessoa pai = map.get(nomePai); // Busca o pai no dicionario
-		if(pai == null){ // Se o pai nao existir cria ele e adiciona
+		if (pai == null) { // Se o pai nao existir cria ele e adiciona
 			pai = new Pessoa(nomePai);
 			map.put(nomePai, pai);
 		}
 
 		Pessoa filho = map.get(nomeFilho); // Busca o filho no dicionario
-		if(filho == null){ // Se o filho nao existir cria ele e adiciona
+		if (filho == null) { // Se o filho nao existir cria ele e adiciona
 			filho = new Pessoa(nomeFilho);
 			map.put(nomeFilho, filho);
 		}
+		
+		try {
+			adicionarFilho(pai, filho);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 
 	private Pessoa buscarPessoaRec(Pessoa atual, String nome) {		
@@ -57,6 +63,29 @@ public class ArvoreGenealogica {
 		if (esquerda != null) return esquerda;
 		
 		return buscarPessoaRec(atual.getFilhoDireita(), nome);
+	}
+	
+	private void adicionarFilho(Pessoa pai, Pessoa filho) throws Exception {
+		if (ancestralComum == null) {
+	        ancestralComum = pai;
+	        pai.setFilhoEquerda(filho);
+	        filho.setPai(pai);
+	        return;
+	    }
+		
+		if (pai.getFilhoEquerda() == null) {
+	        pai.setFilhoEquerda(filho);
+	        filho.setPai(pai);
+	        return;
+	    }
+
+	    if (pai.getFilhoDireita() == null) {
+	        pai.setFilhoDireita(filho);
+	        filho.setPai(pai);
+	        return;
+	    }
+		
+		throw new Exception("Pai ja com dois filhos");
 	}
 
 }
