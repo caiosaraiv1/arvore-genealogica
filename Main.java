@@ -38,5 +38,18 @@ class Main {
 		System.out.println("\nTeste de busca:");
 		System.out.println("Buscando 'carlos.souza': " + arvore.buscarPessoa("carlos.souza"));
 		System.out.println("Buscando 'patricia.fischer': " + arvore.buscarPessoa("patricia.fischer"));
+		Pessoa Dennis = arvore.buscarPessoa("dennis.ritchie");
+		Pessoa Les = arvore.buscarPessoa("les.valiant");
+		Pessoa Heitor = arvore.buscarPessoa("heitor.maciel");
+		Pessoa Oswaldo = arvore.buscarPessoa("oswaldo.veblen");
+		Pessoa Carlos = arvore.buscarPessoa("carlos.souza");
+		System.out.println("Achando ancestral comum entre Dennis R. e Les v.: " + arvore.ancestralComum(Dennis, Les));
+		System.out.println("Nivel Dennis: " + arvore.nivel(Dennis));
+		System.out.println("Nivel Les: " + arvore.nivel(Les));
+		System.out.println("Distância entre Les e Heitor: " + arvore.distancia(Heitor, Oswaldo));
+		System.out.println("Distância entre Dennis e Heitor: " + arvore.distancia(Carlos, Oswaldo));
+		System.out.println("Parentesco Heitor e Carlos: " + arvore.Parentesco(Heitor, Carlos));
+
+
 	}
 }

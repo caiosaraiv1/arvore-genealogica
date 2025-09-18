@@ -5,90 +5,180 @@
  * entre as pessoas da árvore.
  */
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 public class ArvoreGenealogica {
-	
-	Pessoa ancestralComum;
-	Map<String, Pessoa> map = new HashMap<>();;
+
+    Pessoa ancestralComum;
+    Map<String, Pessoa> map = new HashMap<>();
+
+    ;
 	
 	public ArvoreGenealogica() {
-		this.ancestralComum = null;
-	}
-	
-	public ArvoreGenealogica(Pessoa p) {
-		this.ancestralComum = p;
+        this.ancestralComum = null;
+    }
+
+    public ArvoreGenealogica(Pessoa p) {
+        this.ancestralComum = p;
+    }
+
+    public Pessoa getRaiz() {
+        return ancestralComum;
+    }
+
+    public void setRaiz(Pessoa raiz) {
+        this.ancestralComum = raiz;
+    }
+
+    public Pessoa buscarPessoa(String nome) {
+        return buscarPessoaRec(this.ancestralComum, nome);
+    }
+
+    public void criarNo(String nomePai, String nomeFilho) { // Tem que chamar no Main
+
+        Pessoa pai = map.get(nomePai); // Busca o pai no dicionario
+        if (pai == null) { // Se o pai nao existir cria ele e adiciona
+            pai = new Pessoa(nomePai);
+            map.put(nomePai, pai);
+        }
+
+        Pessoa filho = map.get(nomeFilho); // Busca o filho no dicionario
+        if (filho == null) { // Se o filho nao existir cria ele e adiciona
+            filho = new Pessoa(nomeFilho);
+            map.put(nomeFilho, filho);
+        }
+
+        try {
+            adicionarFilho(pai, filho);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private Pessoa buscarPessoaRec(Pessoa atual, String nome) {
+        if (atual == null) {
+            return null;
+        }
+        if (atual.getNome().equals(nome)) {
+            return atual;
+        }
+
+        Pessoa esquerda = buscarPessoaRec(atual.getFilhoEquerda(), nome);
+        if (esquerda != null) {
+            return esquerda;
+        }
+
+        return buscarPessoaRec(atual.getFilhoDireita(), nome);
+    }
+
+    private void adicionarFilho(Pessoa pai, Pessoa filho) throws Exception {
+        if (ancestralComum == null) {
+            ancestralComum = pai;
+            pai.setFilhoEquerda(filho);
+            filho.setPai(pai);
+            return;
+        }
+
+        if (pai.getFilhoEquerda() == null) {
+            pai.setFilhoEquerda(filho);
+            filho.setPai(pai);
+            return;
+        }
+
+        if (pai.getFilhoDireita() == null) {
+            pai.setFilhoDireita(filho);
+            filho.setPai(pai);
+            return;
+        }
+
+        throw new Exception("Pai ja com dois filhos");
+    }
+
+    private void mostraInOrdemPrivate(Pessoa p) { //Recursivo
+        if (p != null) {
+            mostraInOrdemPrivate(p.getFilhoEquerda());
+            System.out.println(p.getNome());
+            mostraInOrdemPrivate(p.getFilhoDireita());
+        }
+    }
+
+	public void mostraInOrdem(){
+		mostraInOrdemPrivate(ancestralComum);
 	}
 
-	public Pessoa getRaiz() {
-		return ancestralComum;
+    private void mostraPreOrdemPrivate(Pessoa p) { //Iterativo
+        Stack<Pessoa> pilha = new Stack<>();
+        while(p != null || !pilha.isEmpty()) {
+            if (p != null) {
+                System.out.println(p.getNome());
+                pilha.push(p);
+                p = p.getFilhoEquerda();
+            } else {
+                p = (Pessoa) pilha.pop();
+                p = p.getFilhoDireita();
+            }
+        }
+    }
+
+	public void mostraPreOrdem(){
+		mostraPreOrdemPrivate(ancestralComum);
 	}
 
-	public void setRaiz(Pessoa raiz) {
-		this.ancestralComum = raiz;
-	}
-	
-	public Pessoa buscarPessoa(String nome) {
-		return buscarPessoaRec(this.ancestralComum, nome);
-	}
-	
-	public void criarNo(String nomePai, String nomeFilho){ // Tem que chamar no Main
+	public Pessoa ancestralComum(Pessoa a, Pessoa b) {
+		//Casos base
+		if(a == null || b == null) return null;
+		if(a == b) return null;
+		if(a.getPai() == b.getPai()) return a.getPai();
 
-		Pessoa pai = map.get(nomePai); // Busca o pai no dicionario
-		if (pai == null) { // Se o pai nao existir cria ele e adiciona
-			pai = new Pessoa(nomePai);
-			map.put(nomePai, pai);
+		//Recursivo em b
+		Pessoa ancestal = ancestralComum(a, b.getPai());
+		if(ancestal != null) return ancestal;
+		//a anda um pra frente
+		return ancestralComum(a.getPai(), b);
+	}
+
+	public int nivel(Pessoa a){
+		if(a == this.ancestralComum) return 0;
+		if(a == null) return -1;
+		Pessoa aux = a;
+		int contador = -1;
+		while(aux != null){
+			aux = aux.getPai();
+			contador++;
+
 		}
+		return contador;
+	}
 
-		Pessoa filho = map.get(nomeFilho); // Busca o filho no dicionario
-		if (filho == null) { // Se o filho nao existir cria ele e adiciona
-			filho = new Pessoa(nomeFilho);
-			map.put(nomeFilho, filho);
+	public int distancia(Pessoa a, Pessoa raiz){ // verificar qual o mais perto da raiz para definir quem é o "raiz"
+		if(a == null || raiz == null) return -1;
+		if(a == raiz) return -1;
+		int contador = 0;
+		Pessoa aux = a;
+		while(aux.getPai() != raiz){
+			aux = aux.getPai();
+			contador++;
 		}
-		
-		try {
-			adicionarFilho(pai, filho);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
+		return contador;
 	}
 
-	private Pessoa buscarPessoaRec(Pessoa atual, String nome) {		
-		if (atual == null) return null;
-		if (atual.getNome().equals(nome)) return atual;
-		
-		Pessoa esquerda = buscarPessoaRec(atual.getFilhoEquerda(), nome);
-		if (esquerda != null) return esquerda;
-		
-		return buscarPessoaRec(atual.getFilhoDireita(), nome);
+	public String Parentesco(Pessoa a, Pessoa b){
+		if(a == null || b == null) return "Invalido.";
+		if(a == b) return "Mesma pessoa";
+		Pessoa ac = ancestralComum(a, b);
+		int grau = Math.abs(nivel(a) - nivel(b));
+		int distAB = distancia(a, b);
+		return ("teste " + distAB);
+		// if(ac == a || ac == b){ //ancestral em comum é a ou b -> tataraalgo
+		// 	if(distAB == 0) return "pai";
+		// 	if(distAB == 1) return "avô";
+		// 	return "tataraalgo";//logica de contar os tataras
+		// }
+		// return ("Primo-" + distAB + "grau " + grau);
 	}
-	
-	private void adicionarFilho(Pessoa pai, Pessoa filho) throws Exception {
-		if (ancestralComum == null) {
-	        ancestralComum = pai;
-	        pai.setFilhoEquerda(filho);
-	        filho.setPai(pai);
-	        return;
-	    }
-		
-		if (pai.getFilhoEquerda() == null) {
-	        pai.setFilhoEquerda(filho);
-	        filho.setPai(pai);
-	        return;
-	    }
-
-	    if (pai.getFilhoDireita() == null) {
-	        pai.setFilhoDireita(filho);
-	        filho.setPai(pai);
-	        return;
-	    }
-		
-		throw new Exception("Pai ja com dois filhos");
-	}
-
 }
-		
-	
+
 
