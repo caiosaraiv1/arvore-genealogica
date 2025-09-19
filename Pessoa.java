@@ -10,6 +10,7 @@ public class Pessoa {
 	private Pessoa filhoEquerda;
 	private Pessoa filhoDireita;
 	
+	
 	public Pessoa(String nome) {
 		this.nome = nome;
 		this.pai = null;
