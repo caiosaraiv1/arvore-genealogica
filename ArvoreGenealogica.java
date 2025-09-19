@@ -153,9 +153,12 @@ public class ArvoreGenealogica {
 		return contador;
 	}
 
+    private static final int ERRO_PARAMETRO = -1;
+    private static final int MESMA_PESSOA = -2;
+
 	public int distancia(Pessoa a, Pessoa b){ // verificar qual o mais perto da raiz para definir quem é o "raiz"
-		if(a == null || b == null) return -998;
-		if(a == b) return -999;
+		if(a == null || b == null) return ERRO_PARAMETRO;
+		if(a == b) return MESMA_PESSOA;
 		
 		Pessoa raiz, aux;
 		if(nivel(a) > nivel(b)){
@@ -173,27 +176,40 @@ public class ArvoreGenealogica {
 		return contador;
 	}
 
+    private String geraTatara(int dist){
+        if(dist == 0) return "pai";
+        if(dist == 1) return "avô";
+
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i = 0; i < dist - 1; i++){
+            sb.append("tatara");
+        }
+        sb.append("avô");
+        return sb.toString();
+    }
+
 	public String Parentesco(Pessoa a, Pessoa b){
 		//casos base
 		if(a == null || b == null) return "Invalido.";
 		if(a == b) return "Mesma pessoa";
 
-		int k; 
 		Pessoa ac = ancestralComum(a, b);
 		int grau = Math.abs(nivel(a) - nivel(b));
 		
 		if(ac == a || ac == b){ //ancestral em comum é a ou b -> tataraalgo
 			int distAB = distancia(a, b);
-			if(distAB == 0) return "pai";
-			if(distAB == 1) return "avô";
-			return "tataraalgo";//logica de contar os tataras
+			return geraTatara(distAB);
 		}
-		if (distancia(a, ac) > distancia(b, ac)){
+        /*
+        if (distancia(a, ac) > distancia(b, ac)){
 			k = distancia(b, ac);
 		} else {
 			k = distancia(a, ac);
 		}
+        */
 		// int k = Math.abs(distancia(a, ac) - distancia(b, ac));
+        int k = Math.min(distancia(a, ac), distancia(b, ac));
 		return ("Primo: " + k + " grau " + grau);
 	}
 }
