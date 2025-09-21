@@ -66,15 +66,6 @@ class Main {
             System.out.println("Nível de " + oswaldo.getNome() + ": " + arvore.nivel(oswaldo));
         }
 
-        // Distância entre pessoas
-        /*
-        if (heitor != null && oswaldo != null) {
-            System.out.println("Distância entre " + heitor.getNome() + " e " + oswaldo.getNome() + ": " + arvore.distancia(heitor, oswaldo));
-        }
-        if (carlos != null && oswaldo != null) {
-            System.out.println("Distância entre " + carlos.getNome() + " e " + oswaldo.getNome() + ": " + arvore.distancia(carlos, oswaldo));
-        }
-		*/
         // --- Consultas de Parentesco ---
         System.out.println("\n--- Consultas de Parentesco ---");
 

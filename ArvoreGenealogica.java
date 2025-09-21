@@ -214,9 +214,15 @@ public class ArvoreGenealogica {
     
         //se primos
         int nivelAC = nivel(ac);
-        int k = nivelA - nivelAC - 1;
+        int aux;
+        if (nivelA < nivelB){
+            aux = nivelA;
+        } else {
+            aux = nivelB;
+        }
+        int k = aux - nivelAC - 1;
         int grau = Math.abs(nivelA - nivelB);
     
-        return "primo-" + k + " em grau " + grau;
+        return "primo " + k + " em grau " + grau;
     }
 }
