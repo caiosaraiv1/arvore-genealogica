@@ -36,70 +36,45 @@ class Main {
         }
         System.out.println("\nDados carregados com sucesso!");
 
-        // --- 2. Realizando buscas e consultas ---
-        System.out.println("\n--- 2. Realizando buscas e consultas ---");
-
         Pessoa dennis = arvore.buscarPessoa("dennis.ritchie");
         Pessoa les = arvore.buscarPessoa("les.valiant");
         Pessoa heitor = arvore.buscarPessoa("heitor.maciel");
         Pessoa oswaldo = arvore.buscarPessoa("oswaldo.veblen");
         Pessoa carlos = arvore.buscarPessoa("carlos.souza");
         Pessoa patricia = arvore.buscarPessoa("patricia.fischer");
+        Pessoa joao = arvore.buscarPessoa("joao.silva");
+        Pessoa bob = arvore.buscarPessoa("bob.constable");
+        Pessoa michael = arvore.buscarPessoa("michael.rabin");
 
-        System.out.println("Buscando 'carlos.souza': " + (carlos != null ? "Encontrado." : "Não encontrado."));
-        System.out.println("Buscando 'pessoa.inexistente': " + (arvore.buscarPessoa("pessoa.inexistente") != null ? "Encontrado." : "Não encontrado."));
+        System.out.println("\n--- Consultas de parentesco ---");
 
-        // --- 3. Demonstração de funcionalidades da árvore ---
-        System.out.println("\n--- 3. Demonstração de funcionalidades da árvore ---");
-
-        // Ancestral Comum
-        if (dennis != null && les != null) {
-            Pessoa ancestralComum = arvore.ancestralComum(dennis, les);
-            System.out.println("O ancestral comum entre " + dennis.getNome() + " e " + les.getNome() + " é: " + (ancestralComum != null ? ancestralComum.getNome() : "Não encontrado."));
+        if (carlos != null && bob != null) {
+            System.out.println("Parentesco entre " + carlos.getNome() + " e " + bob.getNome() + ": " + arvore.Parentesco(carlos, bob));
         }
-
-        // Nível na árvore
-        if (dennis != null) {
-            System.out.println("Nível de " + dennis.getNome() + ": " + arvore.nivel(dennis));
+        if (heitor != null && joao != null) {
+            System.out.println("Parentesco entre " + heitor.getNome() + " e " + joao.getNome() + ": " + arvore.Parentesco(heitor, joao));
         }
-        if (oswaldo != null) {
-            System.out.println("Nível de " + oswaldo.getNome() + ": " + arvore.nivel(oswaldo));
-        }
-
-        // --- Consultas de Parentesco ---
-        System.out.println("\n--- Consultas de Parentesco ---");
-
-        // Parentesco de mesmo nível (irmãos)
-        if (carlos != null && patricia != null) {
-            System.out.println("Parentesco entre " + carlos.getNome() + " e " + patricia.getNome() + ": " + arvore.Parentesco(carlos, patricia));
-        }
-
-        // Parentesco de avô e neto
-        if (carlos != null && oswaldo != null) {
-            System.out.println("Parentesco entre " + oswaldo.getNome() + " e " + carlos.getNome() + ": " + arvore.Parentesco(oswaldo, carlos));
-        }
-
-        // Parentesco de primo
         if (heitor != null && carlos != null) {
             System.out.println("Parentesco entre " + heitor.getNome() + " e " + carlos.getNome() + ": " + arvore.Parentesco(heitor, carlos));
         }
-
-        // Casos com pessoas não relacionadas diretamente
-        if (heitor != null && patricia != null) {
-            System.out.println("Parentesco entre " + heitor.getNome() + " e " + patricia.getNome() + ": " + arvore.Parentesco(heitor, patricia));
+        if (les != null && joao != null) {
+            System.out.println("Parentesco entre " + les.getNome() + " e " + joao.getNome() + ": " + arvore.Parentesco(les, joao));
+        }
+        if (les != null && dennis != null) {
+            System.out.println("Parentesco entre " + les.getNome() + " e " + dennis.getNome() + ": " + arvore.Parentesco(les, dennis));
+        }
+        if (dennis != null && les != null) {
+            System.out.println("Parentesco entre " + dennis.getNome() + " e " + les.getNome() + ": " + arvore.Parentesco(dennis, les));
+        }
+        if (patricia != null && michael != null) {
+            System.out.println("Parentesco entre " + patricia.getNome() + " e " + michael.getNome() + ": " + arvore.Parentesco(patricia, michael));
+        } else {
+        	System.out.println("Patricia e Michael não possuem relação");
+        }
+        if (les != null && oswaldo != null) {
+            System.out.println("Parentesco entre " + les.getNome() + " e " + oswaldo.getNome() + ": " + arvore.Parentesco(les, oswaldo));
         }
 
-        // Parentesco com o próprio ancestral
-        if (dennis != null && oswaldo != null) {
-            System.out.println("Parentesco entre " + dennis.getNome() + " e " + oswaldo.getNome() + ": " + arvore.Parentesco(dennis, oswaldo));
-        }
-
-        // --- 4. Exibição da árvore (percursos) ---
-        System.out.println("\n--- 4. Exibição da árvore (percursos) ---");
-        System.out.println("Percurso In-Ordem (Filho Esquerda -> Pai -> Filho Direita):");
-        arvore.mostraInOrdem();
-
-        System.out.println("\nPercurso Pré-Ordem (Pai -> Filho Esquerda -> Filho Direita):");
-        arvore.mostraPreOrdem();
+        
     }
 }
