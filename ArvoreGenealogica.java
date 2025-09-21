@@ -121,12 +121,12 @@ public class ArvoreGenealogica {
     }
 
     public Pessoa ancestralComum(Pessoa a, Pessoa b) {
-        if (a == null || b == null) return null;
-        if (a.equals(b)) return a;
+        if (a == null || b == null) return null; //se pessoa invalida
+        if (a.equals(b)) return a; //se mesmo nome
 
         Pessoa auxA = a;
-        while (auxA != null) {
-            Pessoa auxB = b;
+        while (auxA != null) { //anda A de um em um enquanto procura todos de B
+            Pessoa auxB = b; 
             while (auxB != null) {
                 if (auxA.equals(auxB)) {
                     return auxA;
@@ -138,7 +138,7 @@ public class ArvoreGenealogica {
         return null;
     }
     
-    // Método nivel original (nível em relação à raiz)
+    //nivel normal p/ raiz
     public int nivel(Pessoa a) {
         if (a == null) {
             return -1;
@@ -152,9 +152,9 @@ public class ArvoreGenealogica {
         return contador;
     }
 
-    // Método sobrecarregado (nível em relação a um ancestral)
+    //nivel em relação a uma pessoa em específico
     public int nivel(Pessoa p, Pessoa ancestral) {
-        if (p == null || ancestral == null) {
+        if (p == null || ancestral == null) { 
             return -1;
         }
         int contador = 0;
@@ -183,7 +183,6 @@ public class ArvoreGenealogica {
         return sb.toString();
     }
     
-    // Método que agora calcula o parentesco no formato desejado
     public String Parentesco(Pessoa a, Pessoa b) {
         if (a == null || b == null) return "Inválido.";
         if (a.equals(b)) return "Mesma pessoa";
@@ -194,17 +193,17 @@ public class ArvoreGenealogica {
         int nivelA = nivel(a);
         int nivelB = nivel(b);
     
-        // Pai
+        //se pai
         if (b.getPai() != null && b.getPai().equals(a)) {
             return "pai";
         }
     
-        // Irmãos
+        //se irmãos
         if (a.getPai() != null && a.getPai().equals(b.getPai())) {
             return "irmao";
         }
     
-        // Tataraneto (ou avô, bisavô, etc.)
+        //se relação direta (tataras)
         if (ac.equals(a) || ac.equals(b)) {
             if (a.equals(ac)) {
                 return geraTatara(nivelB - nivelA);
@@ -213,7 +212,7 @@ public class ArvoreGenealogica {
             }
         }
     
-        // Primos
+        //se primos
         int nivelAC = nivel(ac);
         int k = nivelA - nivelAC - 1;
         int grau = Math.abs(nivelA - nivelB);
