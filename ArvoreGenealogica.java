@@ -197,6 +197,11 @@ public class ArvoreGenealogica {
         if (b.getPai() != null && b.getPai().equals(a)) {
             return "pai";
         }
+
+        //se filho
+        if (a.getPai() != null && a.getPai().equals(b)) {
+            return "filho";
+        }
     
         //se irmãos
         if (a.getPai() != null && a.getPai().equals(b.getPai())) {
