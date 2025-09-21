@@ -30,9 +30,6 @@ public class ArvoreGenealogica {
         this.ancestralComum = raiz;
     }
 
-    public Pessoa buscarPessoa(String nome) {
-        return buscarPessoaRec(this.ancestralComum, nome);
-    }
 
     public void criarNo(String nomePai, String nomeFilho) {
         Pessoa pai = map.get(nomePai);
@@ -55,6 +52,10 @@ public class ArvoreGenealogica {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+    
+    public Pessoa buscarPessoa(String nome) {
+    	return buscarPessoaRec(this.ancestralComum, nome);
     }
 
     private Pessoa buscarPessoaRec(Pessoa atual, String nome) {
