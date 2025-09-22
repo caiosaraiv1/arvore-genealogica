@@ -153,23 +153,6 @@ public class ArvoreGenealogica {
         return contador;
     }
 
-    //nivel em relação a uma pessoa em específico
-    public int nivel(Pessoa p, Pessoa ancestral) {
-        if (p == null || ancestral == null) { 
-            return -1;
-        }
-        int contador = 0;
-        Pessoa aux = p;
-        while (aux != null && !aux.equals(ancestral)) {
-            aux = aux.getPai();
-            contador++;
-        }
-        if (aux == null) {
-            return -1;
-        }
-        return contador;
-    }
-
     private String geraTatara(int dist) {
         if (dist <= 0) return "mesma pessoa";
         if (dist == 1) return "Pai";
